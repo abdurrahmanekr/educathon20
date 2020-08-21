@@ -9,10 +9,12 @@ module.exports = {
     homepage: (req, res) => {
         const page = path.join(__dirname, 'web', 'index.ejs');
 
+        const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
+
         const result = ejs.compile(read(page, 'utf8'), {
             filename: page,
         })({
-
+            error: error,
         });
 
         res
@@ -25,7 +27,7 @@ module.exports = {
         const repassword = req.body.repassword;
 
         if (password !== repassword) {
-            res.redirect('/?password_incorrect=true');
+            res.redirect('/?error=true&message=' + Buffer.from('şifreler uyuşmuyor').toString('base64'));
             return;
         }
 
@@ -48,7 +50,7 @@ module.exports = {
     },
     courseSingle: (req, res) => {
         const id = req.params.id;
-        const page = path.join(__dirname, 'web', 'course-single.ejs');
+        const page = path.join(__dirname, 'web', 'course.ejs');
 
         const result = ejs.compile(read(page, 'utf8'), {
             filename: page,
