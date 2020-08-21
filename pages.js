@@ -5,6 +5,10 @@ const read = require('fs').readFileSync;
 
 const Database = require('./database');
 
+const {
+    passwordHash,
+} = require('./common');
+
 module.exports = {
     homepage: (req, res) => {
         const page = path.join(__dirname, 'web', 'index.ejs');
@@ -35,7 +39,7 @@ module.exports = {
         .from('users')
         .insert({
             email: email,
-            password: password,
+            password: passwordHash(password),
         })
         .exec();
 
