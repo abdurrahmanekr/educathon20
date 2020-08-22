@@ -47,7 +47,6 @@ $(function () {
     window.fetchStataments = function () {
         const parameters = ADL.XAPIWrapper.searchParams();
 
-        parameters['verb'] = 'http://adlnet.gov/expapi/verbs/initialized';
         parameters['activity'] = 'https://www.coursera.org/learn/machine-learning/1';
 
         const queryData = ADL.XAPIWrapper.getStatements(parameters);
