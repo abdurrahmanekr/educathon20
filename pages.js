@@ -144,7 +144,9 @@ module.exports = {
         })
     },
     loginPage: (req, res) => {
-        const id = req.params.id;
+        if (req.session.user)
+            return res.redirect('/?allright_login=true');
+
         const page = path.join(__dirname, 'web', 'login.ejs');
 
         const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
