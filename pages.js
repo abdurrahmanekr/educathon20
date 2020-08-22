@@ -195,6 +195,7 @@ module.exports = {
             'email',
             'created_date'
         ])
+        .orderBy('created_date DESC')
         .exec();
 
         Database.execute(query)
