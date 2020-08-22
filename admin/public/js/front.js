@@ -47,19 +47,21 @@ $(function () {
     window.fetchStataments = function () {
         const parameters = ADL.XAPIWrapper.searchParams();
 
-        parameters['activity'] = 'https://www.coursera.org/learn/machine-learning/1';
+        parameters['agent'] = '{"mbox": "mailto:educathon20@educathon20.herokuapp.com"}';
 
         const queryData = ADL.XAPIWrapper.getStatements(parameters);
 
-        if (queryData.statements && queryData.statements.length > 1) {
+        if (queryData.statements && queryData.statements.length > 0) {
             let list = [];
 
             queryData.statements.forEach(function(x, i) {
+                const desc = x.object.definition.description ? x.object.definition.description['en-US'] : (x.object.definition.name ? x.object.definition.name['en-US'] : x.object.id);
+
                 list.push(`
                     <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-4 flex-column flex-sm-row">
                       <div class="left d-flex align-items-center">
                         <div class="text">
-                          <h6 class="mb-0 d-flex align-items-center"> <span>${x.actor && x.actor.name || 'Bilinmeyen Birisi'}</span><span class="dot dot-sm ml-2 mr-2 bg-violet"></span> ${x.object.definition.description['en-US']}</h6><small class="text-gray">${new Date(x.timestamp).toLocaleString()}</small>
+                          <h6 class="mb-0 d-flex align-items-center"> <span>${x.actor && x.actor.name || 'Bilinmeyen Birisi'}</span><span class="dot dot-sm ml-2 mr-2 bg-violet"></span> ${desc}</h6><small class="text-gray">${new Date(x.timestamp).toLocaleString()}</small>
                         </div>
                       </div>
                       <div class="right ml-5 ml-sm-0 pl-3 pl-sm-0 text-violet">
