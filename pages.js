@@ -10,29 +10,44 @@ const {
 } = require('./common');
 
 const courses = [{
-    id: 1,
+    id: '1',
     name: 'JS Programa Dili',
     price: '10₺',
     description: 'JavaScript Öğrenin',
     student: '2,193',
     comment: '0',
     info: '4 Ders / 12 hafta',
+    teacher: {
+        id: '3',
+        name: 'Abdurrahman Eker',
+        description: 'Yazılımcı',
+    },
 },{
-    id: 2,
+    id: '2',
     name: 'Fizik Kurallları',
     price: '10₺',
     description: 'Fizik Kuralllarını Öğrenin',
     student: '2,193',
     comment: '0',
     info: '4 Ders / 12 hafta',
+    teacher: {
+        id: '2',
+        name: 'Rıdvan Sağlam',
+        description: 'Designer',
+    },
 },{
-    id: 3,
+    id: '3',
     name: 'Logo Tasarlama',
     price: '10₺',
     description: 'Logo Tasarlama Öğrenin',
     student: '2,193',
     comment: '0',
     info: '4 Ders / 12 hafta',
+    teacher: {
+        id: '1',
+        name: 'Alen Taşcıoğlu',
+        description: 'Eğitimci',
+    },
 }];
 
 module.exports = {
@@ -89,7 +104,8 @@ module.exports = {
         const result = ejs.compile(read(page, 'utf8'), {
             filename: page,
         })({
-
+            courses: courses,
+            course: courses.find(x => x.id === id),
         });
 
         res
