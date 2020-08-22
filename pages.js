@@ -205,7 +205,11 @@ module.exports = {
                 error: error,
                 users: data.rows.map(x => ({
                     ...x,
-                    created_date: x.created_date.toLocaleString(),
+                    created_date: new Date(
+                        x.created_date.toLocaleString('en-US', {
+                            timeZone: 'Europe/Istanbul'
+                        })
+                    ).toLocaleString(),
                 })),
             });
 
