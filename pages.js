@@ -15,10 +15,13 @@ module.exports = {
 
         const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
 
+        const sessionUser = req.session.user;
+
         const result = ejs.compile(read(page, 'utf8'), {
             filename: page,
         })({
             error: error,
+            sessionUser: sessionUser,
         });
 
         res
@@ -45,7 +48,7 @@ module.exports = {
 
         Database.execute(query)
         .then(user => {
-            res.redirect('/?register=true');
+            res.redirect('/login/?register=true');
         })
         .catch(err => {
             var message = Buffer.from(String(err.message)).toString('base64');
@@ -83,9 +86,11 @@ module.exports = {
 
         Database.execute(query)
         .then(data => {
-            console.log(data.rows);
             if (data.rows.length < 1)
                 throw new Error('Email veya şifre hatalı!');
+
+
+            req.session.user = data.rows[0];
 
             // TODO session oluşturmak gerekecek
             res.redirect('/');
@@ -110,5 +115,10 @@ module.exports = {
         res
         .set('Content-Type', 'text/html')
         .send(result);
+    },
+    logout: (req, res) => {
+        req.session.destroy();
+
+        res.redirect('/?logout=true')
     },
 };

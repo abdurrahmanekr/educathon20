@@ -14,28 +14,30 @@
 
                 </div>
 
-                <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
-                  <form action="/register" method="post" class="form-box">
-                    <h3 class="h4 text-black mb-4">Hesap Oluştur</h3>
-                    <div class="form-group">
-                      <input name="email" type="text" class="form-control" placeholder="Email Adresi" required>
+                <% if (!locals.sessionUser) { %>
+                    <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
+                      <form action="/register" method="post" class="form-box">
+                        <h3 class="h4 text-black mb-4">Hesap Oluştur</h3>
+                        <div class="form-group">
+                          <input name="email" type="text" class="form-control" placeholder="Email Adresi" required>
+                        </div>
+                        <div class="form-group">
+                          <input name="password" type="password" class="form-control" placeholder="Şifre" required>
+                        </div>
+                        <div class="form-group mb-4">
+                          <input name="repassword" type="password" class="form-control" placeholder="Şifre Tekrar" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="submit" class="btn btn-primary btn-pill" value="Hesap Oluştur">
+                        </div>
+                      </form>
+                      <% if (locals.error) {%>
+                        <div class="alert alert-danger">
+                            Hata Oluştu: <%=error;%>
+                        </div>
+                      <% }%>
                     </div>
-                    <div class="form-group">
-                      <input name="password" type="password" class="form-control" placeholder="Şifre" required>
-                    </div>
-                    <div class="form-group mb-4">
-                      <input name="repassword" type="password" class="form-control" placeholder="Şifre Tekrar" required>
-                    </div>
-                    <div class="form-group">
-                      <input type="submit" class="btn btn-primary btn-pill" value="Hesap Oluştur">
-                    </div>
-                  </form>
-                  <% if (locals.error) {%>
-                    <div class="alert alert-danger">
-                        Hata Oluştu: <%=error;%>
-                    </div>
-                  <% }%>
-                </div>
+                <% } %>
               </div>
             </div>
 

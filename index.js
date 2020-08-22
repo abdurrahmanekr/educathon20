@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
 const app = express();
 
 // headers set
@@ -8,6 +9,11 @@ app.disable('x-powered-by');
 // parser set
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'educathon20',
+    resave: true,
+    saveUninitialized: true,
+}))
 
 const Database = require('./database');
 
@@ -34,6 +40,7 @@ app.use('/public', express.static(path.join(__dirname, 'web', 'public')));
 app.get('/', pages.homepage);
 app.get('/course/:id', pages.courseSingle);
 app.get('/login', pages.loginPage);
+app.get('/logout', pages.logout);
 
 app.post('/login', pages.login);
 app.post('/register', pages.register);
