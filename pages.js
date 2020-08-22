@@ -231,4 +231,19 @@ module.exports = {
             .send(result);
         });
     },
+    adminAnalytics: (req, res) => {
+        const page = path.join(__dirname, 'admin', 'analytics.ejs');
+
+        const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
+
+        const result = ejs.compile(read(page, 'utf8'), {
+            filename: page,
+        })({
+            error: error,
+        });
+
+        res
+        .set('Content-Type', 'text/html')
+        .send(result);
+    },
 };

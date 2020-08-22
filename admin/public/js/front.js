@@ -37,6 +37,48 @@ $(function () {
         return false;
     });
 
+    const statics = {
+        Q1: {
+            time: 10,
+            hard: 0,
+        },
+        Q2: {
+            time: 10,
+            hard: 1,
+        },
+        Q3: {
+            time: 10,
+            hard: 2,
+        },
+    };
+
+    const generalAnalytics = function(statements) {
+        const listDiv = document.getElementById('general-analytics');
+
+        if (!listDiv)
+            return;
+
+        const users = Array.from(new Set(statements.map(function(x) { return x.actor.name; })));
+
+        const correctQ1 = statements.filter(function(x) { return x.object.id.indexOf('question_1_true') !== -1 }).length;
+        const correctQ2 = statements.filter(function(x) { return x.object.id.indexOf('question_2_true') !== -1 }).length;
+        const correctQ3 = statements.filter(function(x) { return x.object.id.indexOf('question_3_true') !== -1 }).length;
+
+        console.log(correctQ1, correctQ2, correctQ3);
+
+        $("#general-analytics #totalCount").text(users.length);
+        $("#general-analytics #Q1Count").text(correctQ1);
+        $("#general-analytics #Q2Count").text(correctQ2);
+        $("#general-analytics #Q3Count").text(correctQ3);
+
+
+        $("#general-analytics #users").empty();
+
+        users.forEach(function(x) {
+            $("#general-analytics #users").append(`<li><a href="/admin/analytics/${encodeURIComponent(x)}">${x}</a></li>`)
+        });
+    };
+
     const conf = {
         endpoint: 'https://sample-lrs-paiseze.lrs.io/xapi/',
         auth: 'Basic ' + toBase64('username:password'),
@@ -53,6 +95,8 @@ $(function () {
 
         if (queryData.statements && queryData.statements.length > 0) {
             let list = [];
+
+            generalAnalytics(queryData.statements.filter(function(x) { return x.actor && x.actor.name }));
 
             queryData.statements.forEach(function(x, i) {
                 const desc = x.object.definition.description ? x.object.definition.description['en-US'] : (x.object.definition.name ? x.object.definition.name['en-US'] : x.object.id);
