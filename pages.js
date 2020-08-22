@@ -183,4 +183,47 @@ module.exports = {
         .set('Content-Type', 'text/html')
         .send(result);
     },
+    adminUsers: (req, res) => {
+        const page = path.join(__dirname, 'admin', 'users.ejs');
+
+        const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
+
+        const query = SQLMaster
+        .from('users')
+        .select([
+            'id',
+            'email',
+            'created_date'
+        ])
+        .exec();
+
+        Database.execute(query)
+        .then(data => {
+            const result = ejs.compile(read(page, 'utf8'), {
+                filename: page,
+            })({
+                error: error,
+                users: data.rows.map(x => ({
+                    ...x,
+                    created_date: x.created_date.toLocaleString(),
+                })),
+            });
+
+            res
+            .set('Content-Type', 'text/html')
+            .send(result);
+        })
+        .catch(err => {
+            const result = ejs.compile(read(page, 'utf8'), {
+                filename: page,
+            })({
+                error: err.message,
+            });
+
+            res
+            .status(500)
+            .set('Content-Type', 'text/html')
+            .send(result);
+        });
+    },
 };

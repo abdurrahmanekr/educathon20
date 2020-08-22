@@ -1,0 +1,44 @@
+<%- include('layout/header') %>
+    <div class="d-flex align-items-stretch">
+
+        <%- include('layout/sidebar', {
+            PAGE: 'users',
+        }) %>
+
+      <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-5">
+          <section class="py-5">
+            <div class="row">
+              <div class="col-lg-12">
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger">
+                        <%=locals.error;%>
+                    </div>
+                <% } %>
+
+
+                <% if (!users || users.length < 1) { %>
+                    <div class="alert alert-danger">
+                        Şu anda kullanıcı bulunmamaktadır
+                    </div>
+                <% } else { %>
+
+                    <% users.forEach(x => { %>
+                        <a href="#" class="message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
+                          <div class="row">
+                            <div class="col-lg-3 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                              <span class="mb-0 mr-1">#<%=x.id;%></span>
+                              <h6 class="mb-0"><%=x.email;%></h6>
+                            </div>
+                            <div class="col-lg-9 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                              <div class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode"><%=x.created_date;%> tarihinde kaydoldu</div>
+                            </div>
+                          </div>
+                        </a>
+                    <% }) %>
+                <% } %>
+              </div>
+            </div>
+          </section>
+        </div>
+<%- include('layout/footer') %>

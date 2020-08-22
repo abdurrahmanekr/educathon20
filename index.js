@@ -44,6 +44,7 @@ app.get('/course/:id', pages.courseSingle);
 app.get('/login', pages.loginPage);
 app.get('/logout', pages.logout);
 app.get('/admin', pages.admin);
+app.get('/admin/users', pages.adminUsers);
 
 app.post('/login', pages.login);
 app.post('/register', pages.register);

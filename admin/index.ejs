@@ -1,7 +1,9 @@
 <%- include('layout/header') %>
     <div class="d-flex align-items-stretch">
 
-        <%- include('layout/sidebar') %>
+        <%- include('layout/sidebar', {
+            PAGE: 'admin',
+        }) %>
 
       <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
