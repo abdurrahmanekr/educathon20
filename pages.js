@@ -65,5 +65,50 @@ module.exports = {
         res
         .set('Content-Type', 'text/html')
         .send(result);
-    }
+    },
+    login: (req, res) => {
+        const email = req.body.email;
+        const password = req.body.password;
+
+        const query = SQLMaster
+        .from('users')
+        .where('email = :email AND password = :password', {
+            ':email': email,
+            ':password': passwordHash(password),
+        })
+        .select([
+            '*'
+        ])
+        .exec();
+
+        Database.execute(query)
+        .then(data => {
+            console.log(data.rows);
+            if (data.rows.length < 1)
+                throw new Error('Email veya şifre hatalı!');
+
+            // TODO session oluşturmak gerekecek
+            res.redirect('/');
+        })
+        .catch(err => {
+            var message = Buffer.from(String(err.message)).toString('base64');
+            res.redirect('/login/?error=true&message=' + message);
+        })
+    },
+    loginPage: (req, res) => {
+        const id = req.params.id;
+        const page = path.join(__dirname, 'web', 'login.ejs');
+
+        const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
+
+        const result = ejs.compile(read(page, 'utf8'), {
+            filename: page,
+        })({
+            error: error,
+        });
+
+        res
+        .set('Content-Type', 'text/html')
+        .send(result);
+    },
 };

@@ -1,0 +1,41 @@
+<%- include('layout/header', {
+    hiddenNavbar: true
+}) %>
+
+<div class="intro-section" id="home-section">
+
+      <div class="slide-1" style="background-image: url('/public/images/hero_1.jpg');" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12">
+              <div class="row align-items-center">
+
+                <div class="col-lg-5 m-auto form-box">
+                  <form action="/login" method="post">
+                    <h3 class="h4 text-black mb-4">Giriş Yap</h3>
+                    <div class="form-group">
+                      <input name="email" type="text" class="form-control" placeholder="Email Adresi" required>
+                    </div>
+                    <div class="form-group">
+                      <input name="password" type="password" class="form-control" placeholder="Şifre" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="submit" class="btn btn-primary btn-pill" value="Giriş Yap">
+                    </div>
+                  </form>
+                  <a href="/" class="btn btn-primary btn-pill">Hesabın Yoksa Kayıt Ol</a>
+                  <% if (locals.error) {%>
+                    <div class="alert alert-danger">
+                        Hata Oluştu: <%=error;%>
+                    </div>
+                  <% }%>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+<%- include('layout/footer') %>

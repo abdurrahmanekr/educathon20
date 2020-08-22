@@ -33,7 +33,9 @@ app.use('/public', express.static(path.join(__dirname, 'web', 'public')));
 
 app.get('/', pages.homepage);
 app.get('/course/:id', pages.courseSingle);
+app.get('/login', pages.loginPage);
 
+app.post('/login', pages.login);
 app.post('/register', pages.register);
 
 
