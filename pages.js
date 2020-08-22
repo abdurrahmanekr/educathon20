@@ -9,6 +9,32 @@ const {
     passwordHash,
 } = require('./common');
 
+const courses = [{
+    id: 1,
+    name: 'JS Programa Dili',
+    price: '10₺',
+    description: 'JavaScript Öğrenin',
+    student: '2,193',
+    comment: '0',
+    info: '4 Ders / 12 hafta',
+},{
+    id: 2,
+    name: 'Fizik Kurallları',
+    price: '10₺',
+    description: 'Fizik Kuralllarını Öğrenin',
+    student: '2,193',
+    comment: '0',
+    info: '4 Ders / 12 hafta',
+},{
+    id: 3,
+    name: 'Logo Tasarlama',
+    price: '10₺',
+    description: 'Logo Tasarlama Öğrenin',
+    student: '2,193',
+    comment: '0',
+    info: '4 Ders / 12 hafta',
+}];
+
 module.exports = {
     homepage: (req, res) => {
         const page = path.join(__dirname, 'web', 'index.ejs');
@@ -20,6 +46,7 @@ module.exports = {
         const result = ejs.compile(read(page, 'utf8'), {
             filename: page,
         })({
+            courses: courses,
             error: error,
             sessionUser: sessionUser,
         });
