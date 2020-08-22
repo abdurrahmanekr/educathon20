@@ -37,10 +37,13 @@ const pages = require('./pages');
 
 app.use('/public', express.static(path.join(__dirname, 'web', 'public')));
 
+app.use('/admin/public', express.static(path.join(__dirname, 'admin', 'public')));
+
 app.get('/', pages.homepage);
 app.get('/course/:id', pages.courseSingle);
 app.get('/login', pages.loginPage);
 app.get('/logout', pages.logout);
+app.get('/admin', pages.admin);
 
 app.post('/login', pages.login);
 app.post('/register', pages.register);
