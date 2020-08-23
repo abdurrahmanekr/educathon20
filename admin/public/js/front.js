@@ -147,8 +147,8 @@ $(function () {
     };
 
     const conf = {
-        endpoint: 'https://sample-lrs-paiseze.lrs.io/xapi/',
-        auth: 'Basic ' + toBase64('username:password'),
+        endpoint: 'https://educathon20-lrs.lrs.io/xapi/',
+        auth: 'Basic ' + toBase64('dejevh:arokos'),
     };
 
     ADL.XAPIWrapper.changeConfig(conf);
@@ -189,7 +189,7 @@ $(function () {
             }
         }
 
-        setTimeout(window.fetchStataments, 1000);
+        setTimeout(window.fetchStataments, 5000);
     };
 
     fetchStataments();
