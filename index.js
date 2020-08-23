@@ -38,6 +38,7 @@ const pages = require('./pages');
 app.use('/public', express.static(path.join(__dirname, 'web', 'public')));
 
 app.use('/admin/public', express.static(path.join(__dirname, 'admin', 'public')));
+app.use('/maincourse', express.static(path.join(__dirname, 'course')));
 
 app.get('/', pages.homepage);
 app.get('/course/:id', pages.courseSingle);
