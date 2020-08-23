@@ -66,6 +66,11 @@ $(function () {
         if (statements.length < 1)
             return;
 
+        if (statements.find(function(x) { return x.object.id.indexOf('completed') !== -1 }) === undefined) {
+            $("#user-analytics").empty().text("Öğrenci sınavı tam olarak bitirmemiş");
+            return;
+        }
+
         const totalTime = (new Date(statements[statements.length - 1].timestamp) - new Date(statements[0].timestamp)) / 1000;
 
         var indexVideo = statements.findIndex(function(x) { return x.object.id.indexOf('watched') !== -1 || x.object.id.indexOf('passed') !== -1 });
@@ -83,19 +88,27 @@ $(function () {
         const Q2Time = (new Date(statements[Q2Index+1].timestamp) - new Date(statements[Q2Index].timestamp)) / 1000;
         const Q3Time = (new Date(statements[Q3Index+1].timestamp) - new Date(statements[Q3Index].timestamp)) / 1000;
 
+        const Q1Status = statements[Q1Index].object.id.indexOf('true') !== -1 ? 1 : 0;
+        const Q2Status = statements[Q2Index].object.id.indexOf('true') !== -1 ? 1 : 0;
+        const Q3Status = statements[Q3Index].object.id.indexOf('true') !== -1 ? 1 : 0;
+
         $("#user-analytics #totalTime").text(totalTime + ' saniye');
         $("#user-analytics #videoTime").text(videoTime);
-        $("#user-analytics #hard0").text(statements[Q1Index].object.id.indexOf('true') !== -1 ? 1 : 0);
-        $("#user-analytics #hard1").text(statements[Q2Index].object.id.indexOf('true') !== -1 ? 1 : 0);
-        $("#user-analytics #hard2").text(statements[Q3Index].object.id.indexOf('true') !== -1 ? 1 : 0);
+        $("#user-analytics #hard0").text(Q1Status);
+        $("#user-analytics #hard1").text(Q2Status);
+        $("#user-analytics #hard2").text(Q3Status);
 
         $("#user-analytics #Q1Time").text(Q1Time);
         $("#user-analytics #Q2Time").text(Q2Time);
         $("#user-analytics #Q3Time").text(Q3Time);
 
-        $("#user-analytics #Q1Status").text(Q1Time > statics.Q1.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
-        $("#user-analytics #Q2Status").text(Q2Time > statics.Q2.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
-        $("#user-analytics #Q3Status").text(Q3Time > statics.Q3.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+        $("#user-analytics #Q1Status").text(Q1Status == 1 ? 'DOĞRU' : 'YANLIŞ');
+        $("#user-analytics #Q2Status").text(Q2Status == 1 ? 'DOĞRU' : 'YANLIŞ');
+        $("#user-analytics #Q3Status").text(Q3Status == 1 ? 'DOĞRU' : 'YANLIŞ');
+
+        $("#user-analytics #Q1Message").text(Q1Time > statics.Q1.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+        $("#user-analytics #Q2Message").text(Q2Time > statics.Q2.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+        $("#user-analytics #Q3Message").text(Q3Time > statics.Q3.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
 
 
         $("#user-analytics #users").empty();
