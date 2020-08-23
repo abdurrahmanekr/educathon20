@@ -52,7 +52,61 @@ $(function () {
         },
     };
 
+    const userAnalytics = function(user, statements) {
+        const listDiv = document.getElementById('user-analytics');
+        if (!listDiv)
+            return;
+
+        statements = statements
+        .filter(function(x) { return x.actor.name === user })
+        .sort(function(a, b) {
+            return new Date(a.timestamp) - new Date(b.timestamp);
+        });
+
+        if (statements.length < 1)
+            return;
+
+        const totalTime = (new Date(statements[statements.length - 1].timestamp) - new Date(statements[0].timestamp)) / 1000;
+
+        var indexVideo = statements.findIndex(function(x) { return x.object.id.indexOf('watched') !== -1 || x.object.id.indexOf('passed') !== -1 });
+        var videoTime = 0;
+
+        if (indexVideo !== -1) {
+            videoTime = (new Date(statements[indexVideo].timestamp) - new Date(statements[indexVideo-1].timestamp)) / 1000;
+        }
+
+        const Q1Index = statements.findIndex(function(x) { return x.object.id.indexOf('question_1') !== -1 });
+        const Q2Index = statements.findIndex(function(x) { return x.object.id.indexOf('question_2') !== -1 });
+        const Q3Index = statements.findIndex(function(x) { return x.object.id.indexOf('question_3') !== -1 });
+
+        const Q1Time = (new Date(statements[Q1Index+1].timestamp) - new Date(statements[Q1Index].timestamp)) / 1000;
+        const Q2Time = (new Date(statements[Q2Index+1].timestamp) - new Date(statements[Q2Index].timestamp)) / 1000;
+        const Q3Time = (new Date(statements[Q3Index+1].timestamp) - new Date(statements[Q3Index].timestamp)) / 1000;
+
+        $("#user-analytics #totalTime").text(totalTime + ' saniye');
+        $("#user-analytics #videoTime").text(videoTime);
+        $("#user-analytics #hard0").text(statements[Q1Index].object.id.indexOf('true') !== -1 ? 1 : 0);
+        $("#user-analytics #hard1").text(statements[Q2Index].object.id.indexOf('true') !== -1 ? 1 : 0);
+        $("#user-analytics #hard2").text(statements[Q3Index].object.id.indexOf('true') !== -1 ? 1 : 0);
+
+        $("#user-analytics #Q1Time").text(Q1Time);
+        $("#user-analytics #Q2Time").text(Q2Time);
+        $("#user-analytics #Q3Time").text(Q3Time);
+
+        $("#user-analytics #Q1Status").text(Q1Time > statics.Q1.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+        $("#user-analytics #Q2Status").text(Q2Time > statics.Q2.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+        $("#user-analytics #Q3Status").text(Q3Time > statics.Q3.time ? 'Öğrenciniz bu soruyu anlamamış' : 'Bu kadar kolay sormamalısınız');
+
+
+        $("#user-analytics #users").empty();
+    };
+
     const generalAnalytics = function(statements) {
+        const username = new URLSearchParams(window.location.search).get('username');
+
+        if (username)
+            userAnalytics(username, statements);
+
         const listDiv = document.getElementById('general-analytics');
 
         if (!listDiv)
@@ -75,7 +129,7 @@ $(function () {
         $("#general-analytics #users").empty();
 
         users.forEach(function(x) {
-            $("#general-analytics #users").append(`<li><a href="/admin/analytics/${encodeURIComponent(x)}">${x}</a></li>`)
+            $("#general-analytics #users").append(`<li><a href="/admin/analytics/?username=${encodeURIComponent(x)}">${x}</a></li>`)
         });
     };
 

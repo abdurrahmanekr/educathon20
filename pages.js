@@ -232,6 +232,7 @@ module.exports = {
         });
     },
     adminAnalytics: (req, res) => {
+        const username = req.query.username;
         const page = path.join(__dirname, 'admin', 'analytics.ejs');
 
         const error = req.query.error ? Buffer.from(req.query.message, 'base64').toString('utf8') : null;
@@ -240,6 +241,7 @@ module.exports = {
             filename: page,
         })({
             error: error,
+            username: username,
         });
 
         res

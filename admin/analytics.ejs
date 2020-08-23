@@ -8,59 +8,90 @@
       <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-5">
           <section class="py-5">
-            <div class="row">
-              <div class="col-lg-6">
-                <% if (locals.error) { %>
-                    <div class="alert alert-danger">
-                        <%=locals.error;%>
+            <% if (username) { %>
+              <div class="row">
+                <div class="col-lg-12">
+                  <% if (locals.error) { %>
+                      <div class="alert alert-danger">
+                          <%=locals.error;%>
+                      </div>
+                  <% } %>
+
+
+                  <div class="card mb-5 mb-lg-0">
+                    <div class="card-header">
+                      <h2 class="h6 mb-0 text-uppercase"><%=username;%> İçi Kursun Analizi</h2>
                     </div>
-                <% } %>
+                    <div class="card-body">
+                      <p class="text-gray mb-5">Burada şu anda <%=username;%> için (<b>ANLIK OLARAK</b>) ders analizleri görünür</p>
 
+                      <div id="user-analytics">
+                          <p><strong><%=username;%></strong> eğitimi <strong id="totalTime"></strong> sürede tamamladı. Eğitimi tamamlama süresi başarısı <strong id="success"></strong></p>
 
-                <div class="card mb-5 mb-lg-0">
-                  <div class="card-header">
-                    <h2 class="h6 mb-0 text-uppercase">Tüm Kursun Genel Analizi</h2>
-                  </div>
-                  <div class="card-body">
-                    <p class="text-gray mb-5">Burada şu anda (<b>ANLIK OLARAK</b>) ders analizleri görünür</p>
+                          <p><strong><%=username;%></strong> 20 saniyelik video içeriğinin <strong id="videoTime"></strong> saniyesini izledi. İzleme oranı <strong id="videoRate"></strong> </p>
 
-                    <div id="general-analytics">
-                        <p>Eğitimi <strong id="totalCount"></strong> öğrenciniz tamamladı.</p>
-                        <p>1. soru <strong id="Q1Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
-                        <p>2. soru <strong id="Q2Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
-                        <p>3. soru <strong id="Q3Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
+                          <p><strong><%=username;%></strong> çoktan seçmeli soruların tamamını yanıtladı. Testi tamamlama oranı %100</p>
 
-                        <p>
-                            Öğrencileriniz: Kolay seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi. <br/>
-                            Orta seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi. <br/>
-                            Zor seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi.
-                        </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <% if (locals.error) { %>
-                    <div class="alert alert-danger">
-                        <%=locals.error;%>
-                    </div>
-                <% } %>
+                          <p><strong><%=username;%></strong> Kolay seviyede <strong id="hard0"></strong>, orta seviyede <strong id="hard1"></strong>, zor seviyede <strong id="hard2"></strong> soruya DOĞRU yanıt verdi.</p>
 
+                          <p><strong><%=username;%></strong> 1. soruya <strong id="Q1Time"></strong> saniye içerisinde <strong id="Q1Status"></strong> cevap verdi. Buna göre <strong id="Q1Message"></strong></p>
 
-                <div class="card mb-5 mb-lg-0">
-                  <div class="card-header">
-                    <h2 class="h6 mb-0 text-uppercase">Kursa Katılan Tüm Öğrenciler</h2>
-                  </div>
-                  <div class="card-body">
-                    <p class="text-gray mb-5">Burada şu anda (<b>ANLIK OLARAK</b>) kursa kaatılan öğrenciler görünür</p>
+                          <p><strong><%=username;%></strong> 2. soruya <strong id="Q2Time"></strong> saniye içerisinde <strong id="Q2Status"></strong> cevap verdi. Buna göre <strong id="Q2Message"></strong></p>
 
-                    <div id="general-analytics">
-                      <ul id="users"></ul>
+                          <p><strong><%=username;%></strong> 3. soruya <strong id="Q3Time"></strong> saniye içerisinde <strong id="Q3Status"></strong> cevap verdi. Buna göre <strong id="Q3Message"></strong></p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            <% } else { %>
+              <div class="row">
+                <div class="col-lg-6">
+                  <% if (locals.error) { %>
+                      <div class="alert alert-danger">
+                          <%=locals.error;%>
+                      </div>
+                  <% } %>
+
+
+                  <div class="card mb-5 mb-lg-0">
+                    <div class="card-header">
+                      <h2 class="h6 mb-0 text-uppercase">Tüm Kursun Genel Analizi</h2>
+                    </div>
+                    <div class="card-body">
+                      <p class="text-gray mb-5">Burada şu anda (<b>ANLIK OLARAK</b>) ders analizleri görünür</p>
+
+                      <div id="general-analytics">
+                          <p>Eğitimi <strong id="totalCount"></strong> öğrenciniz tamamladı.</p>
+                          <p>1. soru <strong id="Q1Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
+                          <p>2. soru <strong id="Q2Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
+                          <p>3. soru <strong id="Q3Count"></strong> öğrenci tarafından DOĞRU olarak çözülmüştür</p>
+
+                          <p>
+                              Öğrencileriniz: Kolay seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi. <br/>
+                              Orta seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi. <br/>
+                              Zor seviyedeki <strong>1</strong> adet sorudan <strong>1</strong> adedine DOĞRU cevap verdi.
+                          </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card mb-5 mb-lg-0">
+                    <div class="card-header">
+                      <h2 class="h6 mb-0 text-uppercase">Kursa Katılan Tüm Öğrenciler</h2>
+                    </div>
+                    <div class="card-body">
+                      <p class="text-gray mb-5">Burada şu anda (<b>ANLIK OLARAK</b>) kursa kaatılan öğrenciler görünür</p>
+
+                      <div id="general-analytics">
+                        <ul id="users"></ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
           </section>
         </div>
       </div>
